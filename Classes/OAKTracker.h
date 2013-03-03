@@ -12,7 +12,9 @@
 @property (nonatomic, strong, readonly) UISlider *slider;
 @property (nonatomic, strong, readonly) UILabel *positionLabel;
 @property (nonatomic, strong, readonly) UILabel *durationLabel;
+
 @property (nonatomic) NSTimeInterval position;
 @property (nonatomic) NSTimeInterval duration;
+@property (nonatomic, getter = isPlaying) BOOL playing;
 
 @end

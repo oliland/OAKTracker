@@ -8,6 +8,11 @@
 #import "OAKTracker.h"
 
 static CGFloat kLabelWidth = 44;
+static NSTimeInterval kRedrawInterval = 0.1f;
+
+@interface OAKTracker ()
+@property (nonatomic, strong) NSTimer *positionTicker;
+@end
 
 @implementation OAKTracker
 
@@ -93,6 +98,21 @@ static CGFloat kLabelWidth = 44;
     } else {
         return [NSString stringWithFormat:@"%d:%02d", totalMinutes, totalSeconds];
     }
+}
+
+- (void)setPlaying:(BOOL)playing
+{
+    _playing = playing;
+    [self.positionTicker invalidate];
+    if (playing) {
+        self.positionTicker = [NSTimer timerWithTimeInterval:kRedrawInterval target:self selector:@selector(positionTickerFired:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:self.positionTicker forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)positionTickerFired:(NSTimer *)timer
+{
+    self.position = self.position + kRedrawInterval;
 }
 
 @end
